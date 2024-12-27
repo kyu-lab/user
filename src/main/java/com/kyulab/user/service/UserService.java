@@ -3,7 +3,6 @@ package com.kyulab.user.service;
 import com.kyulab.user.dto.User;
 import com.kyulab.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
