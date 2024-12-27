@@ -3,10 +3,12 @@ package com.kyulab.user.dto;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
 @Table(name = "users")
+@DynamicUpdate
 public class User {
 
 	@Id

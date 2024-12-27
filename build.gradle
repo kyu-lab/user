@@ -38,6 +38,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+    // spring-openapi
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0"
+
     // 컴파일 시 QueryDSL Q타입 생성
 //    annotationProcessor 'com.querydsl:querydsl-apt:4.4.0:jpa'
 }
