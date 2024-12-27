@@ -14,7 +14,7 @@ public class SwaggerConfig {
 				.info(new Info()
 					.title("springdoc-openapi")
 					.version("0.0.1")
-					.description("테스트중.."));
+					.description("여기는 user임"));
 	}
 	
 }
