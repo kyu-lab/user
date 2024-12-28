@@ -49,6 +49,12 @@ public class UserController {
 				.body("생성~");
 	}
 
+	@PostMapping("/exists/{userId}")
+	public ResponseEntity<Boolean> exsistsUser(@PathVariable int userId) {
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(userService.existsUserById(userId));
+	}
+
 	@DeleteMapping("/{userName}")
 	@Profile("local")
 	@Operation(summary = "유저 삭제 (로컬 테스트용)")
