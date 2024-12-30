@@ -23,6 +23,10 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven {
+        // common 객체를 받기 위해 추가함
+        url = uri('https://jitpack.io')
+    }
 }
 
 dependencies {
@@ -38,6 +42,15 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0"
+
+    // protobuf
+    implementation 'com.github.kyu-lab:common:dad3109ad2' // 테스트중
+    implementation 'net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE'
+    implementation 'net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE'
+    implementation "io.grpc:grpc-netty:1.56.1" // gRPC 전송을 위한 Netty
+    implementation "io.grpc:grpc-netty-shaded:1.69.0"
+    implementation 'com.google.protobuf:protobuf-java:4.28.2'
+    implementation "com.google.protobuf:protobuf-java-util:4.28.2"
 
     // 컴파일 시 QueryDSL Q타입 생성
 //    annotationProcessor 'com.querydsl:querydsl-apt:4.4.0:jpa'
