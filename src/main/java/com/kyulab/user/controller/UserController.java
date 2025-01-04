@@ -1,6 +1,7 @@
 package com.kyulab.user.controller;
 
 import com.kyulab.user.dto.User;
+import com.kyulab.user.service.UserRedisService;
 import com.kyulab.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,6 +20,7 @@ import java.util.List;
 public class UserController {
 
 	private final UserService userService;
+	private final UserRedisService redisService;
 
 	@GetMapping
 	@Operation(summary = "유저 목록 조회")
