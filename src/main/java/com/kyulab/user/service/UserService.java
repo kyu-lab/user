@@ -1,8 +1,8 @@
 package com.kyulab.user.service;
 
-import com.kyulab.HelloReply;
-import com.kyulab.HelloRequest;
-import com.kyulab.MyServiceGrpc;
+import com.kyulab.grpc.user.UserExistsRequest;
+import com.kyulab.grpc.user.UserExistsResponse;
+import com.kyulab.grpc.user.UserServiceGrpc;
 import com.kyulab.user.dto.User;
 import com.kyulab.user.repository.UserRepository;
 import io.grpc.stub.StreamObserver;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 @GrpcService
 @RequiredArgsConstructor
-public class UserService extends MyServiceGrpc.MyServiceImplBase {
+public class UserService extends UserServiceGrpc.UserServiceImplBase {
 
 	private final UserRepository userRepository;
 
@@ -45,11 +45,13 @@ public class UserService extends MyServiceGrpc.MyServiceImplBase {
 	}
 
 	@Override
-	public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
-		String msg = "grpc 테스트용 입니당";
-		System.out.println("난 실행이 되었지롱?");
-		HelloReply reply = HelloReply.newBuilder().setMessage(msg).build();
-		responseObserver.onNext(reply);
+	public void userExists(UserExistsRequest request, StreamObserver<UserExistsResponse> responseObserver) {
+		boolean isUser = this.existsUserById(request.getUserId());
+		UserExistsResponse response = UserExistsResponse.newBuilder()
+				.setExists(isUser)
+				.build();
+
+		responseObserver.onNext(response);
 		responseObserver.onCompleted();
 	}
 }
