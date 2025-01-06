@@ -1,9 +1,12 @@
 # 스프링부트의 자동 설정과 관련된 정보 콘솔 출력기능
 #debug: true
 spring:
+  devtools:
+    livereload:
+      enabled: true
   datasource:
     # 사용법 : h2:file:{위치}/{db명}, h2:mem:{db명}. 테이블 저장을 위해 파일형태로 함
-    url: jdbc:[원하는 방법을 추가]
+    url: jdbc:h2:file:D:/kyu-lab/h2/userdb # 파일로 사용중
     driver-class-name: org.h2.Driver
     hikari:
       username: sa
@@ -23,6 +26,7 @@ logging:
     org.hibernate.sql: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     org.apache.kafka.clients.consumer.ConsumerConfig: ERROR
+    org.springframework.security: DEBUG
 
 springdoc:
   api-docs:
@@ -30,7 +34,7 @@ springdoc:
     groups:
       enabled: true
   swagger-ui:
-    path: /swagger.html
+    path: /swagger
     groups-order: asc
     doc-expansion: none
   cache:
