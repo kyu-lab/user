@@ -1,6 +1,7 @@
 package com.kyulab.user.controller;
 
-import com.kyulab.user.dto.User;
+import com.kyulab.user.dto.UserDto;
+import com.kyulab.user.dto.requset.UserLoginRequest;
 import com.kyulab.user.service.UserRedisService;
 import com.kyulab.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +25,7 @@ public class UserController {
 
 	@GetMapping
 	@Operation(summary = "유저 목록 조회")
-	public List<User> findUsers() {
+	public List<UserDto> findUsers() {
 		return userService.findUsers();
 	}
 
@@ -41,15 +42,29 @@ public class UserController {
 
 	@PostMapping
 	@Operation(summary = "유저 생성")
-	public ResponseEntity<?> saveUser(@RequestBody User user) {
-		if (userService.existsUserByUserName(user.getUserName())) {
+	public ResponseEntity<?> saveUser(@RequestBody UserDto userDto) {
+		if (userService.existsUserByUserName(userDto.getUserName())) {
 			return ResponseEntity.status(HttpStatus.CONFLICT)
 					.body("이미 존재함");
 		}
-		userService.saveUser(user);
+		userService.saveUser(userDto);
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body("생성~");
 	}
+
+	@PostMapping("/login")
+	@Operation(summary = "유저 로그인")
+	public ResponseEntity<?> loginUser(@RequestBody UserLoginRequest request) {
+		boolean isUser = userService.checkUserByUserDetails(request);
+		if (isUser) {
+			return ResponseEntity.status(HttpStatus.OK)
+					.body("로그인 성공");
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body("로그인 실패 ㅜㅜ");
+		}
+	}
+
 
 	@PostMapping("/exists/{userId}")
 	public ResponseEntity<Boolean> exsistsUser(@PathVariable int userId) {
