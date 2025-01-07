@@ -5,3 +5,9 @@ spring:
   h2:
     console:
       enabled: false
+      
+jwt:
+  secret: # refresh token
+  access: # access token
+  refresh-expiredTime: # refresh token time
+  acess-expiredTime: # access token time
