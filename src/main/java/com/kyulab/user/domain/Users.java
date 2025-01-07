@@ -1,4 +1,4 @@
-package com.kyulab.user.dto;
+package com.kyulab.user.domain;
 
 
 import com.kyulab.user.dto.role.UserRole;
@@ -7,18 +7,22 @@ import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-@Getter
 @Table(name = "users")
 @DynamicUpdate
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @ToString
-public class UserDto {
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Users {
 
+	/**
+	 * @see com.kyulab.user.util.UserSecurityUtil
+	 * nextId 메서드를 이용해 아이디 생성중
+	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	@Column(name = "user_id", nullable = false)
+	private long userId;
 
 	@Column(name = "user_name", nullable = false, length = 25)
 	private String userName;

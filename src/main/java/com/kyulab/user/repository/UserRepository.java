@@ -1,15 +1,16 @@
 package com.kyulab.user.repository;
 
-import com.kyulab.user.dto.UserDto;
+import com.kyulab.user.domain.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserDto, Integer> {
+public interface UserRepository extends JpaRepository<Users, Long> {
 
-	Optional<UserDto> findByUserName(String userName);
+	Optional<Users> findByUserName(String userName);
+	Optional<Users> findByUserId(long userId);
 	boolean existsUserByUserName(String userName);
 	boolean deleteUserByUserName(String userName);
 
