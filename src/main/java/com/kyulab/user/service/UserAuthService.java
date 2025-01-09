@@ -25,7 +25,7 @@ public class UserAuthService implements UserDetailsService {
 		 Users newUsers = new Users().builder()
 	 			.userId(userSecurityUtil.nextId())
 				.userName(saveRequest.getUserName())
-				.password(passwordEncoder.encode(saveRequest.getPassword()))
+				.password(passwordEncoder.encode(saveRequest.getPassWord()))
 				.userRole(UserRole.USER) // USER로 고정
 				.build();
 		userRepository.save(newUsers);

@@ -20,6 +20,10 @@ public class UserCommonService {
 		return userRepository.existsUserByUserName(userName);
 	}
 
+	public boolean existsByUserId(long userId) {
+		return userRepository.existsByUserId(userId);
+	}
+
 	public Optional<Users> findByUserName(String userName) {
 		return userRepository.findByUserName(userName);
 	}

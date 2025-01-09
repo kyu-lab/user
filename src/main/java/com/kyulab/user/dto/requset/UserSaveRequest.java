@@ -6,6 +6,6 @@ import lombok.Getter;
 public class UserSaveRequest {
 
 	private String userName;
-	private String password;
+	private String passWord;
 
 }

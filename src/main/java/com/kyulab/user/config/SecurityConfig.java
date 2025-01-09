@@ -54,10 +54,10 @@ public class SecurityConfig {
 
 	private HttpSecurity commonSecurityConfig(HttpSecurity http) throws Exception {
 		return http.authorizeHttpRequests(authorize -> authorize
-					.requestMatchers(HttpMethod.GET, "/user/**").permitAll()
-					.requestMatchers(HttpMethod.POST, "/user/search/**").authenticated()
+					.requestMatchers("/user/account/**").permitAll()
+					.requestMatchers(HttpMethod.POST, "/user/service/**").authenticated()
+					.requestMatchers(HttpMethod.POST, "/user/auth/**").permitAll()
 					.requestMatchers(HttpMethod.DELETE, "/user/**").hasRole("ADMIN")
-					.requestMatchers("/user/auth/**").permitAll()
 					.anyRequest().authenticated()
 				)
 				.sessionManagement(session -> session
@@ -81,6 +81,7 @@ public class SecurityConfig {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.addAllowedOrigin("http://localhost:8000"); // 허용할 출처
 		configuration.addAllowedOrigin("http://localhost:8001");
+		configuration.addAllowedOrigin("http://localhost:3000");
 		configuration.addAllowedMethod("*"); // 모든 HTTP 메서드 허용
 		configuration.addAllowedHeader("*"); // 모든 헤더 허용
 		configuration.setAllowCredentials(true); // 인증 정보 포함 허용

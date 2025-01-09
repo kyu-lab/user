@@ -15,10 +15,10 @@ import java.util.List;
  * 사용자 정보 조회 등 사용자 정보와 관련
  */
 @RestController
-@RequestMapping("/user/search")
-@Tag(name = "사용자 정보 API")
+@RequestMapping("/user/service")
+@Tag(name = "사용자 서비스 API")
 @RequiredArgsConstructor
-public class UserSearchController {
+public class UserServiceController {
 
 	private final UserSearchService userSearchService;
 	private final UserCommonService userCommonService;
