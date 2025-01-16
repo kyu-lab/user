@@ -38,23 +38,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0"
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    implementation 'org.postgresql:postgresql'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5' // JSON 처리용
-    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.h2database:h2' // local 테스트용
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
-
-    // protobuf
-   /* implementation 'com.github.kyu-lab:grpc:d09d4af101' // proto 정의
-    implementation 'net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE'
-    implementation 'net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE'
-    implementation "io.grpc:grpc-netty:1.56.1" // gRPC 전송을 위한 Netty
-    implementation "io.grpc:grpc-netty-shaded:1.69.0"
-    implementation 'com.google.protobuf:protobuf-java:4.28.2'
-    implementation "com.google.protobuf:protobuf-java-util:4.28.2"*/
-
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

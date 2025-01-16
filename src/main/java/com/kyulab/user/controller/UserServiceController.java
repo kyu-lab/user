@@ -15,8 +15,8 @@ import java.util.List;
  * 사용자 정보 조회 등 사용자 정보와 관련
  */
 @RestController
-@RequestMapping("/user/service")
-@Tag(name = "사용자 서비스 API")
+@RequestMapping("/v1/user/service")
+@Tag(name = "사용자 서비스 API v1")
 @RequiredArgsConstructor
 public class UserServiceController {
 

@@ -10,7 +10,7 @@ spring:
     driver-class-name: org.h2.Driver
     hikari:
       username: sa
-      password:
+      password: 1234
   h2:
     console:
       enabled: true
@@ -27,6 +27,8 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     org.apache.kafka.clients.consumer.ConsumerConfig: ERROR
     org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.transaction: DEBUG
 
 jwt:
   secret: 64KY64qU7LWc6rec64+Z7J206rOg7J206rG07JWU7Zi47J206rOgIUDsnbTqsbTrrZDrg5A/JQ==
@@ -43,6 +45,7 @@ springdoc:
     path: /swagger
     groups-order: asc
     doc-expansion: none
+    try-it-out-enabled: true
   cache:
     disabled: true
   model-and-view-allowed: true

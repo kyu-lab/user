@@ -25,10 +25,10 @@ public class JwtFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 		String requestURI = request.getRequestURI();
-		if (requestURI.startsWith("/user")) {
+		if (requestURI.startsWith("/v1/user")) {
 			String token = checkBearer(request);
-			if (!requestURI.startsWith("/user/account") && token == null) {
-				if (requestURI.startsWith("/user/auth")) {
+			if (!requestURI.startsWith("/v1/user/account") && token == null) {
+				if (requestURI.startsWith("/v1/user/auth")) {
 					// 테스틀 위해서 잠시 열어둠
 				} else if (!tokenProvider.validateAccessToken(token)) {
 					String refreshToken = "";

@@ -1,4 +1,4 @@
-package com.kyulab.user.dto.role;
+package com.kyulab.user.domain.role;
 
 public enum UserRole {
 

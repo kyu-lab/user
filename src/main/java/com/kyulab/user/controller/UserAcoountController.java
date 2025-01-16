@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.*;
  * 사용자 인증, 가입 등 사용자 상태와 관련
  */
 @RestController
-@RequestMapping("/user/account")
-@Tag(name = "사용자 관리 API")
+@RequestMapping("/v1/user/account")
+@Tag(name = "사용자 관리 API v1")
 @RequiredArgsConstructor
 public class UserAcoountController {
 
@@ -56,8 +56,8 @@ public class UserAcoountController {
 			return ResponseEntity.badRequest().build();
 		}
 
-		Users users = userCommonService.findByUserName(userRequest.getUserName()).get();
-		if (redisService.getFromRedis(String.valueOf(users.getUserId())) != null) {
+		Users users = userCommonService.findByName(userRequest.getUserName()).get();
+		if (redisService.getFromRedis(String.valueOf(users.getId())) != null) {
 			return ResponseEntity.badRequest().build();
 		}
 		String refreshToken = jwtTokenProvider.createRefreshToken(users);

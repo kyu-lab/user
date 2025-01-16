@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user/auth")
-@Tag(name = "사용자 인증 API")
+@RequestMapping("/v1/user/auth")
+@Tag(name = "사용자 인증 API v1")
 @RequiredArgsConstructor
 public class UserAuthController {
 
 	private final UserCommonService commonService;
 
 	@PostMapping("/{userId}")
-	public boolean test(@PathVariable Long userId) {
+	public boolean existsByUserId(@PathVariable Long userId) {
 		return commonService.existsByUserId(userId);
 	}
 

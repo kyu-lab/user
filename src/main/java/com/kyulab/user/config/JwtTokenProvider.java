@@ -42,7 +42,7 @@ public class JwtTokenProvider {
 		Map<String, Object> jwtInfo = new HashMap<>();
 		jwtInfo.put("alg", "HS256");
 		jwtInfo.put("typ", "JWT");
-		Optional<Users> users =  commonService.findByUserId(userId);
+		Optional<Users> users =  commonService.findById(userId);
 		if (users.isEmpty()) {
 			throw new IOException("Invalid User");
 		}
@@ -61,14 +61,14 @@ public class JwtTokenProvider {
 		jwtInfo.put("alg", "HS512");
 		jwtInfo.put("typ", "JWT");
 		String refreshToken = createJwt(jwtInfo, users, rExpiredTime, refreshKey);
-		redisService.saveToRedis(users.getUserId(), refreshToken, rExpiredTime);
+		redisService.saveToRedis(users.getId(), refreshToken, rExpiredTime);
 		return refreshToken;
 	}
 
 	private String createJwt(Map<String, Object> jwtInfo, Users users, long expiredTime, SecretKey key) {
-		Claims claims = Jwts.claims().setSubject(String.valueOf(users.getUserId()));
-		claims.put("roles", users.getUserRole());
-		claims.put("username", users.getUserName());
+		Claims claims = Jwts.claims().setSubject(String.valueOf(users.getId()));
+		claims.put("roles", users.getRole());
+		claims.put("username", users.getName());
 
 		LocalDateTime localDateTime = LocalDateTime.now();
 		Date issuedAt = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());

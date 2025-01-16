@@ -36,7 +36,7 @@ public class SecurityConfig {
 	};
 	
 	@Bean
-	@Profile("local")
+	@Profile("dev")
 	public SecurityFilterChain localSecurityWebFilterChain(HttpSecurity http) throws Exception {
 		return commonSecurityConfig(http.authorizeHttpRequests(a -> a
 					.requestMatchers(localDevTool).permitAll()
@@ -47,17 +47,17 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	@Profile("dev")
+	@Profile("prod")
 	public SecurityFilterChain devSecurityWebFilterChain(HttpSecurity http) throws Exception {
 		return commonSecurityConfig(http).build();
 	}
 
 	private HttpSecurity commonSecurityConfig(HttpSecurity http) throws Exception {
 		return http.authorizeHttpRequests(authorize -> authorize
-					.requestMatchers("/user/account/**").permitAll()
-					.requestMatchers(HttpMethod.POST, "/user/service/**").authenticated()
-					.requestMatchers(HttpMethod.POST, "/user/auth/**").permitAll()
-					.requestMatchers(HttpMethod.DELETE, "/user/**").hasRole("ADMIN")
+					.requestMatchers("/v1/user/account/**").permitAll()
+					.requestMatchers(HttpMethod.POST, "/v1/user/service/**").authenticated()
+					.requestMatchers(HttpMethod.POST, "/v1/user/auth/**").permitAll()
+					.requestMatchers(HttpMethod.DELETE, "/v1/user/**").hasRole("ADMIN")
 					.anyRequest().authenticated()
 				)
 				.sessionManagement(session -> session

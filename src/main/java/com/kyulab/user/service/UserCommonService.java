@@ -17,18 +17,20 @@ public class UserCommonService {
 	private final UserRepository userRepository;
 
 	public boolean existsUserByUserName(String userName) {
-		return userRepository.existsUserByUserName(userName);
+		return userRepository.existsUserByName(userName);
 	}
 
 	public boolean existsByUserId(long userId) {
-		return userRepository.existsByUserId(userId);
+		boolean test = userRepository.existsById(userId);
+		System.out.println();
+		return userRepository.existsById(userId);
 	}
 
-	public Optional<Users> findByUserName(String userName) {
-		return userRepository.findByUserName(userName);
+	public Optional<Users> findByName(String userName) {
+		return userRepository.findByName(userName);
 	}
 
-	public Optional<Users> findByUserId(long userId) {
-		return userRepository.findByUserId(userId);
+	public Optional<Users> findById(long userId) {
+		return userRepository.findById(userId);
 	}
 }

@@ -1,10 +1,11 @@
 package com.kyulab.user.domain;
 
 
-import com.kyulab.user.dto.role.UserRole;
+import com.kyulab.user.domain.role.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "users")
@@ -16,22 +17,21 @@ import org.hibernate.annotations.DynamicUpdate;
 @AllArgsConstructor
 public class Users {
 
-	/**
-	 * @see com.kyulab.user.util.UserSecurityUtil
-	 * nextId 메서드를 이용해 아이디 생성중
-	 */
 	@Id
-	@Column(name = "user_id", nullable = false)
-	private long userId;
+	@GeneratedValue(generator = "snowflake-id-gen")
+	@GenericGenerator(
+			name = "snowflake-id-gen",
+			strategy = "com.kyulab.user.util.SnowflakeIdGen"
+	)
+	private long id;
 
-	@Column(name = "user_name", nullable = false, length = 25)
-	private String userName;
+	@Column(nullable = false, length = 25)
+	private String name;
 
-	@Column(name = "pass_word", nullable = false, length = 100)
-	private String password;
+	@Column(name = "PASS_WORD", nullable = false, length = 100)
+	private String passWord;
 
-	@Enumerated(EnumType.ORDINAL)
-	@Column(name = "user_role")
-	private UserRole userRole;
+	@Enumerated(EnumType.STRING)
+	private UserRole role;
 
 }
