@@ -1,11 +1,4 @@
 package com.kyulab.user.dto.requset;
 
-import lombok.Getter;
-
-@Getter
-public class UserSaveRequest {
-
-	private String userName;
-	private String passWord;
-
+public record UserSaveRequest(String userName, String passWord) {
 }
