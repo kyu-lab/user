@@ -1,4 +1,6 @@
 spring:
+  jackson:
+    time-zone: Asia/Seoul
   devtools:
     livereload:
       enabled: true
@@ -8,10 +10,13 @@ spring:
     hikari:
       username: postgres
       password: 1234
+  h2:
+    console:
+      enabled: false
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -28,7 +33,6 @@ logging:
 
 jwt:
   secret: 64KY64qU7LWc6rec64+Z7J206rOg7J206rG07JWU7Zi47J206rOgIUDsnbTqsbTrrZDrg5A/JQ==
-  access: 7J206rGw64qUITXslaEl7IS4NijsiqR0b+y9mOyehSF+64uIMyPri6Q=
   refresh-expiredTime: 2592000 # 30일
   acess-expiredTime: 3600 # 1시간
 

@@ -1,6 +1,6 @@
 package com.kyulab.user.config;
 
-import com.kyulab.user.filter.JwtFilter;
+import com.kyulab.user.filter.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,20 +24,16 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-	private final JwtFilter jwtFilter;
+	private final JwtAuthFilter jwtAuthFilter;
 
-	/**
-	 * 로컬에서 사용할 개발툴 주소 모음
-	 * swagger, h2
-	 */
-	private final String[] localDevTool = {
-			"/swagger/**", "/swagger-ui/**", "/docs-user/**", "/swagger-resources/**", "/v3/api-docs/**",
-			"/h2-user/**"
-	};
-	
 	@Bean
-	@Profile("dev")
+	@Profile("local")
 	public SecurityFilterChain localSecurityWebFilterChain(HttpSecurity http) throws Exception {
+		final String[] localDevTool = {
+				"/swagger/**", "/swagger-ui/**", "/docs-user/**", "/swagger-resources/**", "/v3/api-docs/**",
+				"/h2-user/**"
+		};
+
 		return commonSecurityConfig(http.authorizeHttpRequests(a -> a
 					.requestMatchers(localDevTool).permitAll()
 				))
@@ -47,17 +43,32 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	@Profile("prod")
+	@Profile("dev")
 	public SecurityFilterChain devSecurityWebFilterChain(HttpSecurity http) throws Exception {
+		final String[] devTool = {
+				"/swagger/**", "/swagger-ui/**", "/docs-user/**", "/swagger-resources/**", "/v3/api-docs/**"
+		};
+
+		return commonSecurityConfig(http.authorizeHttpRequests(a -> a
+						.requestMatchers(devTool).permitAll()
+				))
+				.headers(header -> header.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+				.build();
+	}
+
+	@Bean
+	@Profile("prod")
+	public SecurityFilterChain prodSecurityWebFilterChain(HttpSecurity http) throws Exception {
 		return commonSecurityConfig(http).build();
 	}
 
 	private HttpSecurity commonSecurityConfig(HttpSecurity http) throws Exception {
 		return http.authorizeHttpRequests(authorize -> authorize
-					.requestMatchers("/v1/user/account/**").permitAll()
-					.requestMatchers(HttpMethod.POST, "/v1/user/service/**").authenticated()
-					.requestMatchers(HttpMethod.POST, "/v1/user/auth/**").permitAll()
-					.requestMatchers(HttpMethod.DELETE, "/v1/user/**").hasRole("ADMIN")
+					.requestMatchers("/user/auth/**").permitAll()
+					.requestMatchers(HttpMethod.GET, "/user/service/**").permitAll()
+					.requestMatchers(HttpMethod.POST, "/user/service/**").authenticated()
+					.requestMatchers(HttpMethod.DELETE, "/user/**").hasRole("ADMIN")
 					.anyRequest().authenticated()
 				)
 				.sessionManagement(session -> session
@@ -67,7 +78,7 @@ public class SecurityConfig {
 				.httpBasic(AbstractHttpConfigurer::disable)
 				.formLogin(AbstractHttpConfigurer::disable)
 				.logout(AbstractHttpConfigurer::disable)
-				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 
 	@Bean
