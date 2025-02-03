@@ -40,7 +40,6 @@ public class SecurityConfig {
 					.requestMatchers(localDevTool).permitAll()
 				))
 				.headers(header -> header.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				.build();
 	}
 
@@ -48,15 +47,13 @@ public class SecurityConfig {
 	@Profile("prod")
 	public SecurityFilterChain prodSecurityWebFilterChain(HttpSecurity http) throws Exception {
 		return commonSecurityConfig(http)
-				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				.build();
 	}
 
 	private HttpSecurity commonSecurityConfig(HttpSecurity http) throws Exception {
 		return http.authorizeHttpRequests(authorize -> authorize
-					.requestMatchers("/user/auth/**").permitAll()
-					.requestMatchers(HttpMethod.GET, "/user/service/**").permitAll()
-					.requestMatchers(HttpMethod.POST, "/user/service/**").authenticated()
+					.requestMatchers(HttpMethod.GET, "/api/user/**").permitAll()
+					.requestMatchers(HttpMethod.POST, "/api/user/**").permitAll()
 					.requestMatchers(HttpMethod.DELETE, "/user/**").hasRole("ADMIN")
 					.anyRequest().authenticated()
 				)
@@ -73,23 +70,6 @@ public class SecurityConfig {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
-	}
-
-	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(List.of(
-				"http://localhost:8000", "http://localhost:8000", "http://localhost:3000", "https://localhost:3000"
-		));
-		configuration.setAllowedMethods(List.of(
-				"GET", "POST", "PUT", "DELETE", "OPTIONS"
-		));
-		configuration.addAllowedHeader("*"); // 모든 헤더 허용
-		configuration.setAllowCredentials(true); // 인증 정보 포함 허용
-
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration); // 모든 경로에 대해 적용
-		return source;
 	}
 
 }
