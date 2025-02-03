@@ -1,24 +1,25 @@
 # 스프링부트의 자동 설정과 관련된 정보 콘솔 출력기능
 #debug: true
 spring:
+  jackson:
+    time-zone: Asia/Seoul
   devtools:
     livereload:
       enabled: true
   datasource:
-    # 사용법 : h2:file:{위치}/{db명}, h2:mem:{db명}. 테이블 저장을 위해 파일형태로 함
-    url: jdbc:h2:file:D:/kyu-lab/h2/userdb # 파일로 사용중
-    driver-class-name: org.h2.Driver
+    url: jdbc:postgresql://localhost:5432/kyulab
+    driver-class-name: org.postgresql.Driver
     hikari:
-      username: sa
+      username: postgres
       password: 1234
-  h2:
-    console:
-      enabled: true
-      path: /h2-user
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
 # 필요에 따라 로깅 레벨 변경
 logging:

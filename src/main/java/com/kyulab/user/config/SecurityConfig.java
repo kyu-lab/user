@@ -19,6 +19,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.List;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -43,24 +45,11 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	@Profile("dev")
-	public SecurityFilterChain devSecurityWebFilterChain(HttpSecurity http) throws Exception {
-		final String[] devTool = {
-				"/swagger/**", "/swagger-ui/**", "/docs-user/**", "/swagger-resources/**", "/v3/api-docs/**"
-		};
-
-		return commonSecurityConfig(http.authorizeHttpRequests(a -> a
-						.requestMatchers(devTool).permitAll()
-				))
-				.headers(header -> header.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-				.build();
-	}
-
-	@Bean
 	@Profile("prod")
 	public SecurityFilterChain prodSecurityWebFilterChain(HttpSecurity http) throws Exception {
-		return commonSecurityConfig(http).build();
+		return commonSecurityConfig(http)
+				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+				.build();
 	}
 
 	private HttpSecurity commonSecurityConfig(HttpSecurity http) throws Exception {
@@ -86,14 +75,15 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
-	// cors 설정
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.addAllowedOrigin("http://localhost:8000"); // 허용할 출처
-		configuration.addAllowedOrigin("http://localhost:8001");
-		configuration.addAllowedOrigin("http://localhost:3000");
-		configuration.addAllowedMethod("*"); // 모든 HTTP 메서드 허용
+		configuration.setAllowedOrigins(List.of(
+				"http://localhost:8000", "http://localhost:8000", "http://localhost:3000", "https://localhost:3000"
+		));
+		configuration.setAllowedMethods(List.of(
+				"GET", "POST", "PUT", "DELETE", "OPTIONS"
+		));
 		configuration.addAllowedHeader("*"); // 모든 헤더 허용
 		configuration.setAllowCredentials(true); // 인증 정보 포함 허용
 
